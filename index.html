@@ -3,13 +3,19 @@
     <head>
         <meta charset="UTF-8" />
         <title>UPI QR Pay</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.6.0/lib/qr-code-styling.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+            rel="stylesheet"
+        />
         <link rel="manifest" href="./manifest.json" />
         <link rel="stylesheet" href="style.css" />
     </head>
@@ -17,9 +23,13 @@
     <body>
         <div class="page" id="capture-area">
             <div class="top-icons" data-html2canvas-ignore>
-                <i class="fa-solid fa-download" id="install" style="display:none;"></i>
+                <i
+                    class="fa-solid fa-download"
+                    id="install"
+                    style="display: none"
+                ></i>
                 <i class="fa-brands fa-whatsapp" onclick="shareAsImage()"></i>
-                <i class="fa-solid fa-pen-to-square" onclick="openModal()"></i>
+                <i class="fa-solid fa-inr" onclick="openModal()"></i>
             </div>
 
             <div class="center">
@@ -44,7 +54,9 @@
                 <input type="number" id="amount" placeholder="Enter Amount" />
                 <input type="text" id="note" placeholder="Add Note" />
                 <div class="modal-actions">
-                    <button class="btn-cancel" onclick="closeModal()">Close</button>
+                    <button class="btn-cancel" onclick="closeModal()">
+                        Close
+                    </button>
                     <button class="btn-save" onclick="updateQR()">Apply</button>
                 </div>
             </div>
@@ -55,29 +67,37 @@
             const name = "JAVED IQBAL";
 
             const qr = new QRCodeStyling({
-                width: 280, 
+                width: 280,
                 height: 280,
                 data: `upi://pay?pa=${upi}&pn=${name}`,
                 dotsOptions: { color: "#000000", type: "rounded" },
-                cornersSquareOptions: { type: "extra-rounded", color: "#000000" },
+                cornersSquareOptions: {
+                    type: "extra-rounded",
+                    color: "#000000"
+                },
                 backgroundOptions: { color: "#ffffff" }
             });
 
             qr.append(document.getElementById("qr"));
 
             function openModal() {
-                $("#modal").fadeIn(200).css("display", "flex").addClass("active");
+                $("#modal")
+                    .fadeIn(200)
+                    .css("display", "flex")
+                    .addClass("active");
             }
 
             function closeModal() {
-                $("#modal").fadeOut(200, function() { $(this).removeClass("active"); });
+                $("#modal").fadeOut(200, function () {
+                    $(this).removeClass("active");
+                });
             }
 
-            $("#modal").on("click", function(e) {
+            $("#modal").on("click", function (e) {
                 if (e.target === this) closeModal();
             });
 
-            $(".modal-content").on("click", function(e) {
+            $(".modal-content").on("click", function (e) {
                 e.stopPropagation();
             });
 
@@ -85,7 +105,9 @@
                 const amt = $("#amount").val();
                 const note = $("#note").val();
                 qr.update({
-                    data: `upi://pay?pa=${upi}&pn=${name}${amt ? "&am=" + amt : ""}${note ? "&tn=" + note : ""}`
+                    data: `upi://pay?pa=${upi}&pn=${name}${
+                        amt ? "&am=" + amt : ""
+                    }${note ? "&tn=" + note : ""}`
                 });
                 closeModal();
             }
@@ -102,15 +124,20 @@
                     });
 
                     canvas.toBlob(async blob => {
-                        const file = new File([blob], "payment-qr.png", { type: "image/png" });
-                        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                        const file = new File([blob], "payment-qr.png", {
+                            type: "image/png"
+                        });
+                        if (
+                            navigator.canShare &&
+                            navigator.canShare({ files: [file] })
+                        ) {
                             await navigator.share({
                                 files: [file],
                                 title: "UPI Payment QR"
                             });
                         } else {
-                            const link = document.createElement('a');
-                            link.download = 'payment-qr.png';
+                            const link = document.createElement("a");
+                            link.download = "payment-qr.png";
                             link.href = canvas.toDataURL();
                             link.click();
                         }
@@ -121,21 +148,26 @@
             }
 
             if ("serviceWorker" in navigator) {
-                navigator.serviceWorker.register("./sw.js").catch(err => console.log(err));
+                navigator.serviceWorker
+                    .register("./sw.js")
+                    .catch(err => console.log(err));
             }
 
             let deferredPrompt;
-            window.addEventListener("beforeinstallprompt", (e) => {
+            window.addEventListener("beforeinstallprompt", e => {
                 e.preventDefault();
                 deferredPrompt = e;
                 $("#install").show();
             });
 
-            $("#install").on("click", function() {
+            $("#install").on("click", function () {
                 $(this).hide();
                 deferredPrompt.prompt();
-                deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+                deferredPrompt.userChoice.then(() => {
+                    deferredPrompt = null;
+                });
             });
         </script>
     </body>
 </html>
+
