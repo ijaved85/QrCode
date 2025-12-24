@@ -8,10 +8,11 @@
             content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
         />
         <meta name="theme-color" content="#000000" />
-
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-        
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta
+            name="apple-mobile-web-app-status-bar-style"
+            content="black-translucent"
+        />
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.6.0/lib/qr-code-styling.js"></script>
@@ -47,7 +48,8 @@
                         </div>
                     </div>
                     <div class="card-footer">
-                        <i class="fa-solid fa-shield"></i> Verified Merchant
+                        <i class="fa-solid fa-shield-check"></i> Verified
+                        Merchant
                     </div>
                 </div>
             </div>
@@ -74,10 +76,18 @@
             const qr = new QRCodeStyling({
                 width: 280,
                 height: 280,
+                type: "svg",
                 data: `upi://pay?pa=${upi}&pn=${name}`,
-                dotsOptions: { color: "#000000", type: "rounded" },
+                dotsOptions: {
+                    color: "#000000",
+                    type: "dots"
+                },
                 cornersSquareOptions: {
                     type: "extra-rounded",
+                    color: "#000000"
+                },
+                cornersDotOptions: {
+                    type: "dot",
                     color: "#000000"
                 },
                 backgroundOptions: { color: "#ffffff" }
@@ -122,7 +132,7 @@
                 try {
                     const canvas = await html2canvas(element, {
                         useCORS: true,
-                        scale: 2,
+                        scale: 3,
                         backgroundColor: null,
                         width: window.innerWidth,
                         height: window.innerHeight
