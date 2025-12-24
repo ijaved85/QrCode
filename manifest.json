@@ -1,0 +1,20 @@
+{
+    "short_name": "QR",
+    "name": "QR",
+    "icons": [
+        {
+            "src": "qr.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "qr.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
+    // "start_url": "https://ijaved85.github.io/QrCode/index.html",
+    "start_url": "http://localhost:8158/Coc/index.html",
+    "display": "standalone",
+    "theme_color": "#000112"
+}
