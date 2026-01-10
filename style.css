@@ -4,20 +4,14 @@
     --glass-bg: rgba(0, 0, 0, 0.25);
     --glass-border: rgba(255, 255, 255, 0.15);
     --white: #ffffff;
-    --accent: #2ecc71;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family:
-        "Inter",
-        -apple-system,
-        BlinkMacSystemFont,
-        sans-serif;
-    -webkit-tap-highlight-color: transparent;
     font-family: "DM Serif Display", serif;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -30,11 +24,10 @@ body {
 .page {
     height: 100%;
     width: 100%;
-    background:
-        linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)),
-        url("bg.png") center/cover no-repeat;
     position: relative;
     display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .top-icons {
@@ -51,16 +44,10 @@ body {
     color: var(--white);
     font-size: 22px;
     opacity: 0.8;
-    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.top-icons i:hover {
-    opacity: 1;
-    transform: translateY(-2px);
+    transition: 0.3s;
 }
 
 .center {
-    flex: 1;
     margin-top: -99px;
     display: flex;
     align-items: center;
@@ -83,21 +70,12 @@ body {
     background: var(--white);
     border-radius: 14px;
     padding: 10px;
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-#qr canvas {
-    max-width: 100% !important;
-    height: auto !important;
-}
-
-.user-info {
-    margin-top: 12px;
-    text-align: center;
-}
+.user-info { margin-top: 12px; text-align: center; }
 
 .user-name {
     font-weight: 900;
@@ -111,7 +89,6 @@ body {
     font-size: 13px;
     color: #666;
     margin-top: 2px;
-    font-weight: 500;
 }
 
 .card-footer {
@@ -121,7 +98,6 @@ body {
     margin-top: 40px;
     letter-spacing: 1.5px;
     text-transform: uppercase;
-    font-weight: 600;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -131,84 +107,38 @@ body {
 .modal {
     position: fixed;
     inset: 0;
-    background:
-        linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)),
-        url("bg.png") center/cover no-repeat;
-    backdrop-filter: blur(8px);
     display: none;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    backdrop-filter: blur(10px);
     z-index: 100;
 }
 
-.modal.active {
-    display: flex;
-}
-
 .modal-content {
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.85);
     padding: 28px;
-    border-radius: 10px;
-    width: 100%;
+    border-radius: 15px;
+    width: 90%;
     max-width: 320px;
     border: 1px solid #333;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
 }
 
-.modal-content h3 {
-    color: #fff;
-    margin-bottom: 20px;
-    font-size: 18px;
-}
+.modal-content h3 { color: #fff; margin-bottom: 20px; }
 
 .modal-content input {
     width: 100%;
     padding: 14px;
     margin-bottom: 12px;
-    background: #121212;
+    background: #111;
     border: 1px solid #333;
-    border-radius: 12px;
+    border-radius: 10px;
     color: #fff;
     outline: none;
-    font-size: 16px;
-    transition: border-color 0.3s;
 }
 
-.modal-content input:focus {
-    border-color: var(--white);
-}
+.modal-actions { display: flex; gap: 10px; }
+.btn-save { flex: 2; background: #fff; color: #000; border: none; padding: 14px; border-radius: 10px; font-weight: bold; }
+.btn-cancel { flex: 1; background: transparent; color: #888; border: 1px solid #333; border-radius: 10px; }
 
-.modal-actions {
-    display: flex;
-    gap: 12px;
-    margin-top: 8px;
-}
-
-.modal-actions button {
-    padding: 14px;
-    border-radius: 12px;
-    font-weight: 700;
-    cursor: pointer;
-    font-size: 14px;
-    transition: transform 0.1s;
-    border: none;
-    outline: none;
-}
-
-.btn-save {
-    flex: 2;
-    background: var(--white);
-    color: #000;
-}
-
-.btn-cancel {
-    flex: 1;
-    background: transparent;
-    color: #888;
-    border: 1px solid #333 !important;
-}
-
-.modal-actions button:active {
-    transform: scale(0.97);
-}
+/* Spinner Style */
+.fa-spinner { color: #2ecc71 !important; }

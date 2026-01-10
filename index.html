@@ -3,24 +3,36 @@
     <head>
         <meta charset="UTF-8" />
         <title>UPI QR Pay</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
         <meta name="theme-color" content="#000000" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+        <meta
+            name="apple-mobile-web-app-status-bar-style"
+            content="black-translucent"
+        />
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/qr-code-styling@1.6.0/lib/qr-code-styling.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
-        <link rel="manifest" href="./manifest.json" />
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+            rel="stylesheet"
+        />
         <link rel="stylesheet" href="style.css" />
     </head>
 
     <body>
         <div class="page" id="capture-area">
             <div class="top-icons" data-html2canvas-ignore>
-                <i class="fa-solid fa-download" id="install" style="display: none"></i>
+                <i
+                    class="fa-solid fa-download"
+                    id="install"
+                    style="display: none"
+                ></i>
                 <i class="fa-solid fa-image" id="btn-bg"></i>
                 <i class="fa-brands fa-whatsapp" id="btn-share"></i>
                 <i class="fa-solid fa-inr" id="btn-modal"></i>
@@ -31,12 +43,13 @@
                     <div class="qr-container">
                         <div id="qr"></div>
                         <div class="user-info">
-                            <p class="user-name">JAVED IQBAL</p>
-                            <p class="user-upi">8346051322@yesg</p>
+                            <p class="user-name"></p>
+                            <p class="user-upi"></p>
                         </div>
                     </div>
                     <div class="card-footer">
-                        <i class="fa-solid fa-shield-halved"></i> Verified Merchant
+                        <i class="fa-solid fa-shield-halved"></i> Verified
+                        Merchant
                     </div>
                 </div>
             </div>
@@ -44,12 +57,27 @@
 
         <div class="modal" id="modal">
             <div class="modal-content">
-                <h3>Transaction Details</h3>
-                <input type="number" id="amount" placeholder="Enter Amount" />
-                <input type="text" id="note" placeholder="Add Note" />
+                <h3>Settings & Details</h3>
+                <input type="text" id="input-name" placeholder="Your Name" />
+                <input type="text" id="input-upi" placeholder="UPI ID" />
+                <hr
+                    style="
+                        border: 0;
+                        border-top: 1px solid #333;
+                        margin: 15px 0;
+                    "
+                />
+                <input
+                    type="number"
+                    id="amount"
+                    placeholder="Amount (Optional)"
+                />
+                <input type="text" id="note" placeholder="Note (Optional)" />
                 <div class="modal-actions">
                     <button class="btn-cancel" id="btn-close">Close</button>
-                    <button class="btn-save" id="btn-apply">Apply</button>
+                    <button class="btn-save" id="btn-apply">
+                        Save & Apply
+                    </button>
                 </div>
             </div>
         </div>
@@ -57,4 +85,3 @@
         <script src="script.js"></script>
     </body>
 </html>
-
