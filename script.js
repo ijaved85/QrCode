@@ -1,12 +1,10 @@
 $(document).ready(() => {
     const totalImages = 25;
 
-    // Load saved data or defaults
-    let upi = localStorage.getItem("upi_id") || "";
-    let name = localStorage.getItem("user_name") || "";
+    let upi = localStorage.getItem("upi_id") || "8346051322@yesg";
+    let name = localStorage.getItem("user_name") || "JAVED IQBAL";
     let currentIdx = parseInt(localStorage.getItem("bg_index")) || 1;
 
-    // Sync UI with saved data
     $(".user-name").text(name);
     $(".user-upi").text(upi);
     $("#input-name").val(name);
@@ -49,9 +47,7 @@ $(document).ready(() => {
         $(".user-upi").text(upi);
 
         qr.update({
-            data: `upi://pay?pa=${upi}&pn=${name}${amt ? "&am=" + amt : ""}${
-                note ? "&tn=" + note : ""
-            }`
+            data: `upi://pay?pa=${upi}&pn=${name}${amt ? "&am=" + amt : ""}${note ? "&tn=" + note : ""}`
         });
         $("#modal").fadeOut(200);
     };
@@ -60,10 +56,7 @@ $(document).ready(() => {
         const $shareBtn = $("#btn-share");
         const element = document.getElementById("capture-area");
 
-        // 1. Start Loading Feedback
-        $shareBtn
-            .removeClass("fa-brands fa-whatsapp")
-            .addClass("fa-solid fa-spinner fa-spin");
+        $shareBtn.removeClass("fa-brands fa-whatsapp").addClass("fa-solid fa-spinner fa-spin");
         $shareBtn.css("pointer-events", "none");
 
         try {
@@ -77,68 +70,60 @@ $(document).ready(() => {
                 height: element.offsetHeight
             });
 
-            // This function handles the cleanup/reset
             const resetUI = () => {
-                $shareBtn
-                    .removeClass("fa-solid fa-spinner fa-spin")
-                    .addClass("fa-brands fa-whatsapp");
+                $shareBtn.removeClass("fa-solid fa-spinner fa-spin").addClass("fa-brands fa-whatsapp");
                 $shareBtn.css("pointer-events", "auto");
             };
 
-            canvas.toBlob(
-                async blob => {
-                    const file = new File([blob], "payment-qr.png", {
-                        type: "image/png"
-                    });
-
-                    if (
-                        navigator.canShare &&
-                        navigator.canShare({ files: [file] })
-                    ) {
-                        try {
-                            await navigator.share({
-                                files: [file],
-                                title: "UPI Payment QR"
-                            });
-                            // Reset as soon as the share menu is handled (even if canceled)
-                            resetUI();
-                        } catch (shareErr) {
-                            // Reset if user cancels the share menu
-                            resetUI();
-                        }
-                    } else {
-                        const link = document.createElement("a");
-                        link.download = "payment-qr.png";
-                        link.href = canvas.toDataURL("image/png", 1.0);
-                        link.click();
+            canvas.toBlob(async blob => {
+                const file = new File([blob], "payment-qr.png", { type: "image/png" });
+                if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                    try {
+                        await navigator.share({ files: [file], title: "UPI Payment QR" });
+                        resetUI();
+                    } catch (shareErr) {
                         resetUI();
                     }
-                },
-                "image/png",
-                1.0
-            );
+                } else {
+                    const link = document.createElement("a");
+                    link.download = "payment-qr.png";
+                    link.href = canvas.toDataURL("image/png", 1.0);
+                    link.click();
+                    resetUI();
+                }
+            }, "image/png", 1.0);
         } catch (error) {
             console.error(error);
-            $shareBtn
-                .removeClass("fa-solid fa-spinner fa-spin")
-                .addClass("fa-brands fa-whatsapp");
+            $shareBtn.removeClass("fa-solid fa-spinner fa-spin").addClass("fa-brands fa-whatsapp");
             $shareBtn.css("pointer-events", "auto");
         }
     };
 
     setBg(currentIdx);
 
-    $("#btn-modal").on("click", () =>
-        $("#modal").fadeIn(200).css("display", "flex")
-    );
+    $("#btn-modal").on("click", () => $("#modal").fadeIn(200).css("display", "flex"));
     $("#btn-close").on("click", () => $("#modal").fadeOut(200));
     $("#btn-apply").on("click", updateData);
     $("#btn-bg").on("click", nextBg);
     $("#btn-share").on("click", shareAsImage);
 
-    // Close modal on outside click
-    $("#modal").on("click", e => {
-        if (e.target.id === "modal") $("#modal").fadeOut(200);
-    });
+    $("#modal").on("click", e => { if (e.target.id === "modal") $("#modal").fadeOut(200); });
     $(".modal-content").on("click", e => e.stopPropagation());
+
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("./sw.js").catch(err => console.log(err));
+    }
+
+    let deferredPrompt;
+    window.addEventListener("beforeinstallprompt", e => {
+        e.preventDefault();
+        deferredPrompt = e;
+        $("#install").show();
+    });
+
+    $("#install").on("click", () => {
+        $("#install").hide();
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+    });
 });
