@@ -1,8 +1,8 @@
 $(document).ready(() => {
     const totalImages = 25;
 
-    let upi = localStorage.getItem("upi_id") || "8346051322@yesg";
-    let name = localStorage.getItem("user_name") || "JAVED IQBAL";
+    let upi = localStorage.getItem("upi_id") || "";
+    let name = localStorage.getItem("user_name") || "";
     let currentIdx = parseInt(localStorage.getItem("bg_index")) || 1;
 
     $(".user-name").text(name);
