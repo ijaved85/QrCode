@@ -1,5 +1,5 @@
 $(document).ready(() => {
-    const totalImages = 25;
+    const totalImages = 27;
 
     let upi = localStorage.getItem("upi_id") || "";
     let name = localStorage.getItem("user_name") || "";
@@ -47,7 +47,9 @@ $(document).ready(() => {
         $(".user-upi").text(upi);
 
         qr.update({
-            data: `upi://pay?pa=${upi}&pn=${name}${amt ? "&am=" + amt : ""}${note ? "&tn=" + note : ""}`
+            data: `upi://pay?pa=${upi}&pn=${name}${amt ? "&am=" + amt : ""}${
+                note ? "&tn=" + note : ""
+            }`
         });
         $("#modal").fadeOut(200);
     };
@@ -56,7 +58,9 @@ $(document).ready(() => {
         const $shareBtn = $("#btn-share");
         const element = document.getElementById("capture-area");
 
-        $shareBtn.removeClass("fa-brands fa-whatsapp").addClass("fa-solid fa-spinner fa-spin");
+        $shareBtn
+            .removeClass("fa-brands fa-whatsapp")
+            .addClass("fa-solid fa-spinner fa-spin");
         $shareBtn.css("pointer-events", "none");
 
         try {
@@ -71,47 +75,69 @@ $(document).ready(() => {
             });
 
             const resetUI = () => {
-                $shareBtn.removeClass("fa-solid fa-spinner fa-spin").addClass("fa-brands fa-whatsapp");
+                $shareBtn
+                    .removeClass("fa-solid fa-spinner fa-spin")
+                    .addClass("fa-brands fa-whatsapp");
                 $shareBtn.css("pointer-events", "auto");
             };
 
-            canvas.toBlob(async blob => {
-                const file = new File([blob], "payment-qr.png", { type: "image/png" });
-                if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                    try {
-                        await navigator.share({ files: [file], title: "UPI Payment QR" });
-                        resetUI();
-                    } catch (shareErr) {
+            canvas.toBlob(
+                async blob => {
+                    const file = new File([blob], "payment-qr.png", {
+                        type: "image/png"
+                    });
+                    if (
+                        navigator.canShare &&
+                        navigator.canShare({ files: [file] })
+                    ) {
+                        try {
+                            await navigator.share({
+                                files: [file],
+                                title: "UPI Payment QR"
+                            });
+                            resetUI();
+                        } catch (shareErr) {
+                            resetUI();
+                        }
+                    } else {
+                        const link = document.createElement("a");
+                        link.download = "payment-qr.png";
+                        link.href = canvas.toDataURL("image/png", 1.0);
+                        link.click();
                         resetUI();
                     }
-                } else {
-                    const link = document.createElement("a");
-                    link.download = "payment-qr.png";
-                    link.href = canvas.toDataURL("image/png", 1.0);
-                    link.click();
-                    resetUI();
-                }
-            }, "image/png", 1.0);
+                },
+                "image/png",
+                1.0
+            );
         } catch (error) {
             console.error(error);
-            $shareBtn.removeClass("fa-solid fa-spinner fa-spin").addClass("fa-brands fa-whatsapp");
+            $shareBtn
+                .removeClass("fa-solid fa-spinner fa-spin")
+                .addClass("fa-brands fa-whatsapp");
             $shareBtn.css("pointer-events", "auto");
         }
     };
 
     setBg(currentIdx);
 
-    $("#btn-modal").on("click", () => $("#modal").fadeIn(200).css("display", "flex"));
+    $("#btn-modal").on("click", () =>
+        $("#modal").fadeIn(200).css("display", "flex")
+    );
     $("#btn-close").on("click", () => $("#modal").fadeOut(200));
     $("#btn-apply").on("click", updateData);
     $("#btn-bg").on("click", nextBg);
     $("#btn-share").on("click", shareAsImage);
 
-    $("#modal").on("click", e => { if (e.target.id === "modal") $("#modal").fadeOut(200); });
+    $("#modal").on("click", e => {
+        if (e.target.id === "modal") $("#modal").fadeOut(200);
+    });
     $(".modal-content").on("click", e => e.stopPropagation());
 
     if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register("./sw.js").catch(err => console.log(err));
+        navigator.serviceWorker
+            .register("./sw.js")
+            .catch(err => console.log(err));
     }
 
     let deferredPrompt;
@@ -124,6 +150,8 @@ $(document).ready(() => {
     $("#install").on("click", () => {
         $("#install").hide();
         deferredPrompt.prompt();
-        deferredPrompt.userChoice.then(() => { deferredPrompt = null; });
+        deferredPrompt.userChoice.then(() => {
+            deferredPrompt = null;
+        });
     });
 });
